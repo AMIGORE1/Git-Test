@@ -140,6 +140,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="dllMain.cpp" />
+    <ClCompile Include="src\sdk\math\math.cpp" />
+    <ClCompile Include="src\sdk\mem\mem.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\sdk\math\math.h" />
+    <ClInclude Include="src\sdk\mem\mem.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
