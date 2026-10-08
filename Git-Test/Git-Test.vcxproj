@@ -139,15 +139,15 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\core\hooks\hooks.cpp" />
     <ClCompile Include="src\core\features\aim\aim.cpp" />
+    <ClCompile Include="src\core\hooks\hooks.cpp" />
     <ClCompile Include="dllMain.cpp" />
     <ClCompile Include="src\sdk\math\math.cpp" />
     <ClCompile Include="src\sdk\mem\mem.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\core\hooks\hooks.h" />
     <ClInclude Include="src\core\features\aim\aim.h" />
+    <ClInclude Include="src\core\hooks\hooks.h" />
     <ClInclude Include="src\sdk\math\math.h" />
     <ClInclude Include="src\sdk\mem\mem.h" />
   </ItemGroup>
