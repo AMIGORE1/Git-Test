@@ -3,5 +3,5 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="Git-Test/Git-Test.vcxproj" />
+  <Project Path="Git-Test/Git-Test.vcxproj" Id="bf6fb92c-10b2-4f85-b117-3b5851c71375" />
 </Solution>
