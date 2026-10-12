@@ -1,6 +1,7 @@
 #include <Windows.h>
 #include <iostream>
 #include <thread>
+#include "src/core/hooks/hooks.h"
 
 static HANDLE mainThread = nullptr;
 
@@ -13,11 +14,12 @@ DWORD WINAPI Agyzak(LPVOID hModule)
 	freopen_s(&f, "CONOUT$", "w", stdout);
 #endif
 
-
+	hooks::Init();
 
 	while (!(GetAsyncKeyState(VK_END) & 1))
 		std::this_thread::sleep_for(std::chrono::milliseconds(150));
 
+	hooks::Release();
 
 #ifdef _DEBUG
 	if (f) fclose(f);
