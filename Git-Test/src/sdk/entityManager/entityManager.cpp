@@ -1,5 +1,5 @@
 #include "entityManager.h"
-
+/*
 EntityManager::EntityManager() {
     base = Mem::GetModuleBase("ac_client.exe");
 }
@@ -69,4 +69,67 @@ const std::vector<Entity>& EntityManager::GetEntities()
 {
     std::shared_lock lock(mutex);
     return entities;
+}*/
+
+EntityManager::EntityManager() {
+    base = Mem::GetModuleBase("ac_client.exe");
+}
+
+void EntityManager::Update() {
+    if (!entityListAddr)
+        entityListAddr = *reinterpret_cast<uintptr_t*>(base + offs::EntityList);
+    if (!entityListAddr) return;
+
+    uintptr_t playerPtr = *reinterpret_cast<uintptr_t*>(base + offs::LocalPlayer);
+    if (!playerPtr) return;
+    Player* player = reinterpret_cast<Player*>(playerPtr);
+
+    if (player->isAlive()) return;
+    int numPlayers = *reinterpret_cast<int*>(base + offs::NumOfPlayers);
+    if (numPlayers <= 1 || numPlayers > 32) return;
+   
+    Entity** entityList = reinterpret_cast<Entity**>(entityListAddr);
+    std::vector<Entity> temp;
+    temp.reserve(32);
+
+    for (int i = 1; i < numPlayers; i++) {
+        Entity* currEnt = entityList[i];
+        if (!currEnt) continue;
+
+        Entity ent{};
+        ent.pos = *reinterpret_cast<Vector3*>(
+            reinterpret_cast<uintptr_t>(currEnt) + offs::Pos);
+        ent.headPos = *reinterpret_cast<Vector3*>(
+            reinterpret_cast<uintptr_t>(currEnt) + offs::HeadPos);
+        ent.health = *reinterpret_cast<int*>(
+            reinterpret_cast<uintptr_t>(currEnt) + offs::Health);
+        ent.armor = *reinterpret_cast<int*>(
+            reinterpret_cast<uintptr_t>(currEnt) + offs::Armor);
+        ent.isAlive = *reinterpret_cast<bool*>(
+            reinterpret_cast<uintptr_t>(currEnt) + offs::IsAlive);
+        ent.team = *reinterpret_cast<int*>(
+            reinterpret_cast<uintptr_t>(currEnt) + offs::Team);
+
+        temp.push_back(ent);
+    }
+    {
+        std::unique_lock lock(mutex);
+        entities.swap(temp);
+        this->player = player;
+    }
+}
+
+EntityManager& EntityManager::Get() {
+    static EntityManager instance;
+    return instance;
+}
+
+const std::vector<Entity>& EntityManager::GetEntities() {
+    std::shared_lock lock(mutex);
+    return entities;
+}
+
+Player* EntityManager::GetPlayer() {
+    std::shared_lock lock(mutex);
+    return player;
 }

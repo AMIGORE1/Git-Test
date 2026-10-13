@@ -23,6 +23,7 @@ void vis::Update() {
 
 void vis::Esp() {
     auto& em = EntityManager::Get();
+    auto* pl = em.GetPlayer();
     ImDrawList* drawList = ImGui::GetBackgroundDrawList();
     ImGuiIO& io = ImGui::GetIO();
     int W = static_cast<int>(io.DisplaySize.x);
@@ -31,6 +32,7 @@ void vis::Esp() {
 
     for (const auto& ent : em.GetEntities()) {
         if (ent.isAlive) continue;
+        if (ent.team == pl->team()) continue;
         Vector3 footWorldPos = ent.pos;
         Vector3 headWorldPos = ent.headPos;
 

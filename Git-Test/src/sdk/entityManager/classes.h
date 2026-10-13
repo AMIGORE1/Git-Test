@@ -15,8 +15,10 @@ class Player
 public:
     SCHEMA(int, health, offs::Health);
     SCHEMA(int, armor, offs::Armor);
+    SCHEMA(int, team, offs::Team);
     SCHEMA(Vector3, pos, offs::Pos);
     SCHEMA(Vector3, headPos, offs::HeadPos);
-    SCHEMA(Vector3, viewAng, offs::ViewAng);
-    SCHEMA(int, isAlive, offs::IsAlive)
+    SCHEMA(Vector2, viewAng, offs::ViewAng);
+    SCHEMA(bool, isAlive, offs::IsAlive);
+   
 };
